@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.4.0
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: nole-mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: admin
+
+  adminer:
+    image: adminer:4.8.1
+    restart: always
+    container_name: dbmgmt
+    environment:
+      ADMINER_DEFAULT_SERVER: nole-mysql
+    ports:
+      - "8080:8080"
+    networks:
+      - nole-net
+
+networks:
+  nole-net:
+    driver: bridge
+
+volumes:
+  db_data: {}
